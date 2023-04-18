@@ -1,0 +1,24 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import panda as pd
+
+df = pd.read_csv('data7_3.csv')
+data = np.array(df)
+
+# Extract the x and y data from the array
+x_data = data[:,0]  # mirror position
+y_data = data[:,1]  # intensity
+
+# Perform Fourier transform to obtain FTIR spectrum
+n = len(x_data)
+dt = x_data[1]-x_data[0]
+freq = np.fft.fftfreq(n, d=dt)
+y_fft = np.fft.fft(y_data)
+y_fft = np.fft.fftshift(y_fft)
+
+# Plot the FTIR spectrum
+plt.plot(freq, np.abs(y_fft)**2)
+plt.xlabel('Wavenumber (cm-1)')
+plt.ylabel('Power spectrum')
+plt.title('FTIR Spectrum')
+plt.show()
